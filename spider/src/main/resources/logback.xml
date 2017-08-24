@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="LOG_HOME" value="logs" />
+
+	<property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS}, %msg%n" />
+	<property name="NORMAL_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level - %logger{100} - %msg%n" />
+	<property name="SERIOUS_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level - %-60.60class [%4line] - %msg%n" />
+	<!-- add by linch -->
+	<property name="NORMAL_HTML" value="%date%thread%5level%logger{100}%msg"/>
+	
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<encoder>
+			<pattern>${SERIOUS_PATTERN}</pattern>
+		</encoder>
+	</appender>
+	<appender name="DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+		<file>${LOG_HOME}/debug.html</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/debug.%d{yyyyMMdd}.%i.html.gz</fileNamePattern>
+			<maxHistory>3</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+		    	<maxFileSize>300MB</maxFileSize>
+		    </timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		 <layout class="ch.qos.logback.classic.html.HTMLLayout">
+           <pattern>${NORMAL_HTML}</pattern>
+        </layout>
+	</appender>
+	<appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<file>${LOG_HOME}/info.html</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/info.%d{yyyyMMdd}.%i.html.gz</fileNamePattern>
+			<maxHistory>3</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+		    	<maxFileSize>100MB</maxFileSize>
+		    </timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.html.HTMLLayout">
+			<pattern>${NORMAL_HTML}</pattern>
+        </layout>
+	</appender>
+	<appender name="WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>WARN</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<file>${LOG_HOME}/warn.html</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/warn.%d{yyyyMMdd}.html.gz</fileNamePattern>
+			<MaxHistory>7</MaxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+		    	<maxFileSize>100MB</maxFileSize>
+		    </timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.html.HTMLLayout">
+           <pattern>${NORMAL_HTML}</pattern>
+        </layout>
+	</appender>
+	<appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<file>${LOG_HOME}/error.html</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/error.%d{yyyyMMdd}.html.gz</fileNamePattern>
+			<MaxHistory>7</MaxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+		    	<maxFileSize>100MB</maxFileSize>
+		    </timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.html.HTMLLayout">
+           <pattern>${NORMAL_HTML}</pattern>
+        </layout>
+	</appender>
+	
+	<!-- project default level -->
+	<logger name="com.gzcyou.happyskate" level="INFO" />
+	<logger name="jarlun.framework" level="INFO" />
+	<logger name="org.springside" level="INFO" />
+	<logger name="java.sql" level="INFO" />
+	
+	<logger name="org.apache" level="WARN">
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="org.mybatis" level="ERROR">
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="org.springframework" level="ERROR">
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="org.hibernate" level="ERROR">
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="com.fasterxml.jackson" level="ERROR">
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="net.sf.ehcache" level="WARN">
+		<appender-ref ref="ERROR" />
+	</logger>
+	<logger name="org.aspectj" level="WARN">
+		<appender-ref ref="ERROR" />
+	</logger>
+	
+	<root level="DEBUG">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="DEBUG" />
+		<appender-ref ref="INFO" />
+		<appender-ref ref="WARN" />
+		<appender-ref ref="ERROR" />
+	</root>
+      
+</configuration>

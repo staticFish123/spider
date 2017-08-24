@@ -1,7 +1,8 @@
 package com.casaba.spider.topic.impl;
 
 import java.io.IOException;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -27,6 +28,12 @@ public class TopicServiceImpl implements TopicService {
 		
 		//设置过滤条件
 		String regex = "data-id=\"[0-9]{0,6}\"";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(body);
+		
+		while(matcher.find()) {
+			
+		}
 		
 
 	}
