@@ -1,6 +1,8 @@
 package com.casaba.spider.topic.impl;
 
 import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,7 +11,10 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +26,14 @@ import com.casaba.spider.utils.ConfigProperty;
 public class TopicServiceImpl implements TopicService {
 	
 	private final static Logger logger = LoggerFactory.getLogger(TopicServiceImpl.class);
+	
+	private static Executor pool;
 
 	@Override
 	public void getTopicID() throws ClientProtocolException, IOException {	
 		HttpClient client = HttpClients.createDefault();
 		String topicURL = ConfigProperty.getInstance().getProperty("topicURL");
-		logger.info("Topic URL :" + topicURL);
+//		logger.info("Topic URL :" + topicURL);
 		HttpGet get = new HttpGet(topicURL);
 		CloseableHttpResponse response = (CloseableHttpResponse) client.execute(get);
 
@@ -45,22 +52,31 @@ public class TopicServiceImpl implements TopicService {
 			Collection.topicIDQueue.add(s.substring(9, s.length()-1));
 		}
 		
+		logger.info("TopID Queue Size:" + Collection.topicIDQueue.size());
 		response.close();
 		EntityUtils.consume(entity);
 
 	}
-	
-	public static void main(String[] args) {
-		TopicService service = new TopicServiceImpl();
-		try {
-			service.getTopicID();
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
+	@Override
+	public void getAllSubTopicID() {
+		// 建立线程池
+		int threadNum = Integer.parseInt(ConfigProperty.getInstance().getProperty("threadNum"));
+		pool = Executors.newFixedThreadPool(threadNum);
+		PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
+		int maxTotal = Integer.parseInt(ConfigProperty.getInstance().getProperty("maxTotal"));
+		int defaultMaxPerRoute = Integer.parseInt(ConfigProperty.getInstance().getProperty("defaultMaxPerRoute"));
+		cm.setMaxTotal(maxTotal);
+		cm.setDefaultMaxPerRoute(defaultMaxPerRoute);
+		CloseableHttpClient httpClient = HttpClients.custom().setRetryHandler(new DefaultHttpRequestRetryHandler()).setConnectionManager(cm).build();
+		
+		logger.info("TopicID Queue Size: " + Collection.topicIDQueue.size());
+		
+		
+		
+		
+		
+		
+	}
+	
 }
