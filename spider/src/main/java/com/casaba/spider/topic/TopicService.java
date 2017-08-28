@@ -8,5 +8,5 @@ public interface TopicService {
 	
 	void getTopicID() throws ClientProtocolException, IOException;
 	
-	void getAllSubTopicID();
+	void getAllSubTopicID() throws IOException, InterruptedException;
 }

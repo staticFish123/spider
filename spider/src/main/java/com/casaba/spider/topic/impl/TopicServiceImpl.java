@@ -61,7 +61,7 @@ public class TopicServiceImpl implements TopicService {
 	}
 
 	@Override
-	public void getAllSubTopicID() {
+	public void getAllSubTopicID() throws IOException, InterruptedException {
 		// 建立线程池
 		int threadNum = Integer.parseInt(ConfigProperty.getInstance().getProperty("threadNum"));
 		pool = Executors.newFixedThreadPool(threadNum);
@@ -77,18 +77,23 @@ public class TopicServiceImpl implements TopicService {
 
 		int len = Collection.topicIDQueue.size();
 		for (int i = 0; i < len; i++) {
-			
+
 			String url = ConfigProperty.getInstance().getProperty("subTopicURL");
 			HttpPost httpPost = new HttpPost(url);
-			
+
 			pool.execute(new topicHandler(httpClient, httpPost, Collection.topicIDQueue.poll()));
 			httpPost.releaseConnection();
 		}
-		
+
 		pool.shutdown();
-		
-		while(true) {
-			
+
+		while (true) {
+			if (pool.isTerminated()) {
+				httpClient.close();
+				logger.info("所有的线程都已经结束了， 一共获取到SubTopicID个数为" + Collection.subTopicIDQueue.size() + "个");
+				break;
+			}
+			Thread.sleep(1000);
 		}
 
 	}
