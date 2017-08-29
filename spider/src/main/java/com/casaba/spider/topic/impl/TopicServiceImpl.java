@@ -20,6 +20,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.casaba.spider.factory.HttpClientFactory;
 import com.casaba.spider.share.Collection;
 import com.casaba.spider.threads.topicHandler;
 import com.casaba.spider.topic.TopicService;
@@ -63,16 +64,11 @@ public class TopicServiceImpl implements TopicService {
 	@Override
 	public void getAllSubTopicID() throws IOException, InterruptedException {
 		// 建立线程池
-		int threadNum = Integer.parseInt(ConfigProperty.getInstance().getProperty("threadNum"));
+		int threadNum = Integer.parseInt(ConfigProperty.getInstance().getProperty("topicThreadNum"));
 		pool = Executors.newFixedThreadPool(threadNum);
-		PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
 		int maxTotal = Integer.parseInt(ConfigProperty.getInstance().getProperty("maxTotal"));
 		int defaultMaxPerRoute = Integer.parseInt(ConfigProperty.getInstance().getProperty("defaultMaxPerRoute"));
-		cm.setMaxTotal(maxTotal);
-		cm.setDefaultMaxPerRoute(defaultMaxPerRoute);
-		CloseableHttpClient httpClient = HttpClients.custom().setRetryHandler(new DefaultHttpRequestRetryHandler())
-				.setConnectionManager(cm).build();
-
+		CloseableHttpClient httpClient = HttpClientFactory.getHttpClient(maxTotal, defaultMaxPerRoute);
 		logger.info("TopicID Queue Size: " + Collection.topicIDQueue.size());
 
 		int len = Collection.topicIDQueue.size();
