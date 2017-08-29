@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.casaba.spider.dao.IUserUrl">
+ 
+ 	 <resultMap id="employeeResultMap" type="com.lin.service.model.Employee">  
+        <id property="id" column="EMPLOYEER_ID"/>  
+        <result property="name" column="EMPLOYEER_NAME"/>  
+        <result property="age" column="EMPLOYEER_AGE"/>  
+        <result property="department" column="EMPLOYEER_DEPARTMENT"/>  
+        <result property="worktype" column="EMPLOYEER_WORKTYPE"/>
+    </resultMap> 
+ 	
+     <!-- 查找 -->
+     <select id="findEmployeeByID" parameterType="int" resultMap="employeeResultMap">
+     select * from t_employeer where employeer_id =#{employeer_id}
+     </select>
+     
+      <!-- 插入 -->  
+      <!-- useGeneratedKeys设置为"true"表明要MyBatis获取由数据库自动生成的主键；keyProperty="id"指定把获取到的主键值注入到Employeer的id属性 --> 
+    <insert id="addEmployee" parameterType="com.lin.service.model.Employee"
+    useGeneratedKeys="true" keyProperty="employeer_id">  
+        insert into t_employeer(employeer_name,employeer_age,employeer_department,employeer_worktype) 
+        values(#{name},#{age},#{department},#{worktype})  
+    </insert>  
+    
+<!--      删除  -->
+    <delete id="deleteEmployee" parameterType="int">  
+        delete from t_employeer where employeer_id = #{employeer_id}  
+    </delete>  
+    
+<!--     修改   -->
+    <update id="updateEmployee" parameterType="com.lin.service.model.Employee">  
+        update t_employeer set employeer_name = #{name},employeer_age= #{age},employeer_department = #{department}
+        ,employeer_worktype=#{worktype}  where employeer_id = #{id}  
+    </update>  
+    
+ </mapper>
