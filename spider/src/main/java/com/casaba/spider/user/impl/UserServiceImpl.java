@@ -8,6 +8,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.casaba.spider.factory.HttpClientFactory;
 import com.casaba.spider.share.Collection;
@@ -15,6 +16,7 @@ import com.casaba.spider.threads.UserUrlHandler;
 import com.casaba.spider.user.UserService;
 import com.casaba.spider.utils.ConfigProperty;
 
+@Service("userService")
 public class UserServiceImpl implements UserService {
 	
 	private final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);

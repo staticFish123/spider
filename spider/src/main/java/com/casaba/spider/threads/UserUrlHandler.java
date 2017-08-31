@@ -20,12 +20,19 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.casaba.spider.dao.IUserUrl;
+import com.casaba.spider.model.UserUrl;
 
 
 
 public class UserUrlHandler extends Thread {
 
 	private final static Logger logger = LoggerFactory.getLogger(UserUrlHandler.class);
+	
+	@Autowired
+	private IUserUrl iUserUrl;
 
 	private CloseableHttpClient httpClient;
 	private HttpContext context;
@@ -41,6 +48,8 @@ public class UserUrlHandler extends Thread {
 	public void run() {
 
 		Integer offSet = 0;
+		
+		UserUrl userUrl = new UserUrl();
 
 		while (true) {
 
@@ -88,9 +97,8 @@ public class UserUrlHandler extends Thread {
 						String s = m.group();
 						String user = s.substring(8, s.length() - 3);
 						logger.info("User:" + user);
-
-//						insertUrl(user);
-
+						userUrl.setUserName(user);
+						iUserUrl.addUserUrl(userUrl);
 					}
 					
 					logger.info("Topic ID: "+httpPost.getURI()+"OffSet="+offSet);

@@ -17,6 +17,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.casaba.spider.factory.HttpClientFactory;
 import com.casaba.spider.share.Collection;
@@ -24,6 +25,7 @@ import com.casaba.spider.threads.topicHandler;
 import com.casaba.spider.topic.TopicService;
 import com.casaba.spider.utils.ConfigProperty;
 
+@Service("topicService")
 public class TopicServiceImpl implements TopicService {
 
 	private final static Logger logger = LoggerFactory.getLogger(TopicServiceImpl.class);
