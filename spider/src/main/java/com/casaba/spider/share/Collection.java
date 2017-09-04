@@ -7,7 +7,7 @@ public class Collection {
 	
 	private final static int topicID_length = 50;
 	
-	private final static int subTopicID_length = 5000;
+	private final static int subTopicID_length = 50000;
 	
 	//topicID队列
 	public final static BlockingQueue<String> topicIDQueue = new ArrayBlockingQueue<String>(topicID_length);

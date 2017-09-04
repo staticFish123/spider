@@ -46,7 +46,7 @@ public class topicHandler extends Thread {
 	@Override
 	public void run() {
 
-		logger.info("Thread:" + topicID + "Start...");
+		logger.info("Thread:" + topicID + " Start...");
 
 		Integer offSet = 0;
 
@@ -72,7 +72,7 @@ public class topicHandler extends Thread {
 						String body = EntityUtils.toString(entity, "UTF-8");
 
 						if (body.length() < 100) {
-							logger.info("TopicID" + topicID + "Finshed");
+							logger.info("TopicID: " + topicID + "Finshed");
 							break;
 						}
 
@@ -83,14 +83,14 @@ public class topicHandler extends Thread {
 						while (matcher.find()) {
 
 							String s = matcher.group();
-							logger.info("subTopicID:" + s.substring(7));
+							logger.info("subTopicID: " + s.substring(7));
 
 							count++;
 							Collection.subTopicIDQueue.add(s.substring(7));
 
 						}
 
-						logger.info("Topic ID" + topicID + "offSet" + offSet);
+						logger.info("Topic ID: " + topicID + " offSet: " + offSet);
 						offSet = offSet + 20;
 
 					}
@@ -103,7 +103,7 @@ public class topicHandler extends Thread {
 			}
 
 		}
-		logger.info("Thread----------------" + topicID + "Count:" + count);
+		logger.info("Thread----------------" + topicID + " Count:" + count);
 
 	}
 
