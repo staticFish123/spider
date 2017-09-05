@@ -1,8 +1,5 @@
 package com.casaba.spider.test;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.casaba.spider.base.BaseTest;

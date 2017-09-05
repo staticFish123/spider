@@ -3,6 +3,7 @@ package com.casaba.spider.user.impl;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -22,6 +23,10 @@ public class UserServiceImpl implements UserService {
 	private final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	private static ExecutorService pool;
+	private int queueCount; //当前排队线程数
+	private int activeCount; //当前活动线程数
+	private long completedTask; //执行完成线程数
+	private long totalTask; //总线程数
 	
 	/* (non-Javadoc)
 	 * @see com.casaba.spider.user.UserService#getAllUserURL()
@@ -42,6 +47,7 @@ public class UserServiceImpl implements UserService {
 			try {
 				HttpPost httppost = new HttpPost(
 						"https://www.zhihu.com/topic/" + Collection.subTopicIDQueue.take() + "/followers");
+//				logger.info("剩余Sub Topic ID个数为" + Collection.subTopicIDQueue.size());
 				System.out.println(httppost.getURI());
 				 pool.execute(new UserUrlHandler(httpClient,httppost));
 				 httppost.releaseConnection();
@@ -51,9 +57,19 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		pool.shutdown();
+		
 		while(true) {
 			
-			logger.info("剩余Sub Topic ID个数为" + Collection.subTopicIDQueue.size());
+//			logger.info("剩余Sub Topic ID个数为" + Collection.subTopicIDQueue.size());
+			queueCount = ((ThreadPoolExecutor)pool).getQueue().size();
+			activeCount = ((ThreadPoolExecutor)pool).getActiveCount();
+			completedTask = ((ThreadPoolExecutor)pool).getCompletedTaskCount();
+			totalTask = ((ThreadPoolExecutor)pool).getTaskCount();
+			
+			logger.info("当前排队Sub Topic ID个数为: " + queueCount);
+			logger.info("当前运行Sub Topic ID个数为: " + activeCount);
+			logger.info("当前完成Sub Topic ID个数为: " + completedTask);
+			logger.info("总共Sub Topic ID个数为： " + totalTask);
 			
 			if(pool.isTerminated()) {
 				httpClient.close();

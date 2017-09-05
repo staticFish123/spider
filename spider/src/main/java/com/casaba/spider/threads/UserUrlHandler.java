@@ -20,23 +20,25 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.casaba.spider.base.BaseTest;
 import com.casaba.spider.dao.IUserUrl;
 import com.casaba.spider.model.UserUrl;
-import com.casaba.spider.utils.SpringContextUtil;
 
-
-@ContextConfiguration("classpath:/spring-mybatis.xml")
-public class UserUrlHandler extends Thread {
+public class UserUrlHandler implements Runnable {
 
 	private final static Logger logger = LoggerFactory.getLogger(UserUrlHandler.class);
-	
-	private IUserUrl iUserUrl = SpringContextUtil.getBean(IUserUrl.class);
+ //	private IUserUrl iUserUrl = SpringContextUtil.getBean(IUserUrl.class);
 	
 //	@Autowired
 //	private IUserUrl iUserUrl;
 
+	static ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-mybatis.xml");
+	private static IUserUrl iUserUrl = ctx.getBean(IUserUrl.class);
+	
 	private CloseableHttpClient httpClient;
 	private HttpContext context;
 	private HttpPost httpPost;
