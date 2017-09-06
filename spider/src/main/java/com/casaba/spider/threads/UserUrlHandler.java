@@ -20,11 +20,9 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.casaba.spider.base.BaseTest;
 import com.casaba.spider.dao.IUserUrl;
 import com.casaba.spider.model.UserUrl;
 
