@@ -1,5 +1,6 @@
 package com.casaba.spider.test;
 
+import org.junit.Test;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.casaba.spider.base.BaseTest;
@@ -12,7 +13,7 @@ public class UserUrlTest extends BaseTest{
 //	@Autowired
 //	private IUserUrl iUserUrl;
 	
-//	@Test
+	@Test
 	@Transactional
 	public void addUserUrl() {
 		UserUrl userUrl = new UserUrl();

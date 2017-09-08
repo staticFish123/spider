@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/spring-mybatis.xml")
+@ContextConfiguration(locations = {"classpath:/init.xml"})
 public class BaseTest {
 	@Before
 	public void setUp() throws Exception {
