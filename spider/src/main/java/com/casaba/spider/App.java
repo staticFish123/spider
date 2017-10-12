@@ -33,10 +33,15 @@ public class App extends BaseTest{
 	public void start() {
 		try {
 
+			//获取用户名
 			topicService.getTopicID();
 			topicService.getAllSubTopicID();
-
 			userService.getAllUserURL();
+			
+			//获取用户信息
+			
+			
+			
 
 		} catch (IOException e) {
 			logger.error("APP IOException", e);
