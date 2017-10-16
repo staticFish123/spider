@@ -30,21 +30,20 @@ public class App extends BaseTest{
 	private UserService userService;
 	
 	@Test
-	public void start() {
+	public void start() throws IOException {
 		try {
 
 			//获取用户名
-			topicService.getTopicID();
-			topicService.getAllSubTopicID();
-			userService.getAllUserURL();
+//			topicService.getTopicID();
+//			topicService.getAllSubTopicID();
+//			userService.getAllUserURL();
 			
 			//获取用户信息
-			
+			userService.getAllUserIDFromDB();
+			userService.getAllUser();
 			
 			
 
-		} catch (IOException e) {
-			logger.error("APP IOException", e);
 		} catch (InterruptedException e) {
 			logger.error("App InterruptedException", e);
 		}

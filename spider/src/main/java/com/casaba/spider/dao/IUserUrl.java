@@ -10,4 +10,5 @@ import com.casaba.spider.model.UserUrl;
 public interface IUserUrl {
 	List<UserUrl> queryAllUserUrl();
 	int addUserUrl(UserUrl userUrl);
+	List<String> queryAllUserName();
 }
