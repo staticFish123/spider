@@ -17,6 +17,22 @@
 	<select id = "queryAllUserName" resultType = "String">
 		select user_name from user_url where searched = 0
 	</select>
+	
+	<update id="updateSearchedStatus" parameterType="com.casaba.spider.model.UserUrl">
+		update user_url
+		<set>
+			<if test="userID != null" >
+				USER_ID = #{userID, jdbcType = INT},
+			</if>
+			<if test="userName != null">
+				USER_NAME = #{userName, jdbcType = VARCHAR},
+			</if>
+			<if test="searched != null">
+				SEARCHED = #{searched, jdbcType = VARCHAR},
+			</if>
+		</set>
+		where USER_NAME = #{userName, jdbcType = VARCHAR}
+	</update>
 
 	<!-- 插入 -->
 	<!-- useGeneratedKeys设置为"true"表明要MyBatis获取由数据库自动生成的主键；keyProperty="user_id"指定把获取到的主键值注入到UserUrl的id属性 -->

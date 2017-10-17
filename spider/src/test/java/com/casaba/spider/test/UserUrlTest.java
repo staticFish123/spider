@@ -3,6 +3,7 @@ package com.casaba.spider.test;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +40,13 @@ public class UserUrlTest extends BaseTest{
 		List<String> list = new ArrayList<>();
 		list = iUserUrl.queryAllUserName();
 		assert(list != null);
+	}
+	
+	@Test
+	public void updateSearchedStatus() {
+		UserUrl userUrl = new UserUrl(null, "wang-bo-ming", "0");
+		int result = iUserUrl.updateSearchedStatus(userUrl);
+		assert(result == 1);
 	}
 	
 }

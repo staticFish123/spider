@@ -129,10 +129,11 @@ public class UserServiceImpl implements UserService {
 		String userUrl;
 		
 		for(int i = 0; i< length; i++) {
-//			userUrl = "https://www.zhihu.com/people/" + Collection.userIDQueue.take() + "/about";
-			userUrl = "https://www.zhihu.com/people/ma-qian-zu/about";
+			String userSpellName =  Collection.userIDQueue.take();
+			userUrl = "https://www.zhihu.com/people/" + userSpellName + "/about";
+//			userUrl = "https://www.zhihu.com/people/ma-qian-zu/about";
 			HttpGet httpget = new HttpGet(userUrl);
-			userPool.execute(new UserInfoHandler(httpClient, httpget));
+			userPool.execute(new UserInfoHandler(httpClient, httpget, userSpellName));
 			httpget.releaseConnection();
 		}
 		

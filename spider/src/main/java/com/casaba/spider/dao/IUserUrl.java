@@ -11,4 +11,5 @@ public interface IUserUrl {
 	List<UserUrl> queryAllUserUrl();
 	int addUserUrl(UserUrl userUrl);
 	List<String> queryAllUserName();
+	int updateSearchedStatus(UserUrl userUrl);
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.casaba.spider.dao.IUserInfo">
+
+	<resultMap id="userUrlResultMap" type="com.casaba.spider.model.UserUrl">
+		<result property="name" column="USER_NAME" />
+		<result property="sex" column="SEX" />
+		<result property="location" column="LOCATION" />
+		<result property="business" column="BUSINESS" />
+		<result property="employment" column="EMPLOYMENT" />
+		<result property="education" column="EDUCATION" />
+		<result property="educationExtra" column="EDUCATION_EXTRA" />
+		<result property="suppose" column="SUPPOSE" />
+		<result property="thanks" column="THANKS" />
+		<result property="question" column="QUESTION" />
+		<result property="answer" column="ANSWER" />
+		<result property="article" column="ARTICLE" />
+		<result property="followers" column="FOLLOWERS" />
+		<result property="following" column="FOLLOWING" />
+		<result property="shared" column="SHARED" />
+		<result property="collected" column="COLLECTED" />
+		<result property="spellName" column="spell_name" />
+	</resultMap>
+
+	<!-- 插入 -->
+	<insert id="addUserInfo" parameterType="com.casaba.spider.model.UserInfo">
+		insert into user_info(user_name, sex, location, business, employment, position, education, education_extra, suppose, thanks, question, answer, article, followers, following, shared, collected, spell_name)values(#{name}, #{sex}, #{location}, #{business}, #{employment}, #{position}, #{education}, #{educationExtra}, #{suppose}, #{thanks}, #{question}, #{answer}, #{article}, #{followers}, #{following}, #{shared}, #{collected}, #{spellName})
+	</insert>
+
+</mapper>

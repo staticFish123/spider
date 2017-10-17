@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.print.DocFlavor.STRING;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -13,24 +15,35 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.casaba.spider.dao.IUserInfo;
+import com.casaba.spider.dao.IUserUrl;
 import com.casaba.spider.model.UserInfo;
+import com.casaba.spider.model.UserUrl;
 
 public class UserInfoHandler extends Thread {
 
 	private final static Logger logger = LoggerFactory.getLogger(UserInfoHandler.class);
+	
+	static ApplicationContext ctx = new ClassPathXmlApplicationContext("init.xml");
+	private static IUserInfo iUserInfo = ctx.getBean(IUserInfo.class);
+	private static IUserUrl iUserUrl = ctx.getBean(IUserUrl.class);
+
 
 	private final CloseableHttpClient httpClient;
 	private final HttpContext context;
 	private final HttpGet httpget;
+	private String spellName;
 	
 	private final static int error_code = -1;
 
-	public UserInfoHandler(CloseableHttpClient httpClient, HttpGet httpget) {
+	public UserInfoHandler(CloseableHttpClient httpClient, HttpGet httpget, String spellName) {
 		this.httpClient = httpClient;
 		this.context = HttpClientContext.create();
 		this.httpget = httpget;
-
+		this.spellName = spellName;
 	}
 
 	@Override
@@ -67,7 +80,8 @@ public class UserInfoHandler extends Thread {
 				Pattern p = Pattern.compile(regex);
 				Matcher m = p.matcher(body);
 				UserInfo userInfo = new UserInfo();
-
+				userInfo.setSpellName(spellName);
+				
 				while (m.find()) {
 
 					String s = m.group();
@@ -102,7 +116,7 @@ public class UserInfoHandler extends Thread {
 					if (s.startsWith("education-extra")) {
 						s = s.substring(29, s.length() - 2);
 //						System.out.println(s);
-						userInfo.setEducation_extra(s);
+						userInfo.setEducationExtra(s);
 					}
 
 					if (s.startsWith("education ")) {
@@ -135,7 +149,7 @@ public class UserInfoHandler extends Thread {
 
 					if (s.startsWith("data-")) {
 						s = s.substring(13, s.length() - 1);
-						System.out.println(s);
+//						System.out.println(s);
 						if (s.equals("他")) {
 							userInfo.setSex("male");
 						} else {
@@ -223,20 +237,21 @@ public class UserInfoHandler extends Thread {
 					}
 
 				}
-
-				System.out.println(userInfo);
+				
+				iUserInfo.addUserInfo(userInfo);
+				logger.info("用户" + userInfo.getName() + "已经存入了数据库!");
+				iUserUrl.updateSearchedStatus(new UserUrl(null, userInfo.getSpellName(), "1"));
+				logger.info("用户" + userInfo.getName() + "已经修改了状态!");
 
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("IOException", e);
 		} finally {
 			 try {
 				EntityUtils.consume(entity);
 				response.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("IOException", e);
 			}
              
 		}

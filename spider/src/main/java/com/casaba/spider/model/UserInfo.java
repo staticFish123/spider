@@ -9,7 +9,7 @@ public class UserInfo {
 	private String employment;
 	private String position;
 	private String education;
-	private String education_extra;
+	private String educationExtra;
 	private int suppose; //赞同
 	private int thanks; //感谢
 	private int question;
@@ -19,7 +19,35 @@ public class UserInfo {
 	private int following;
 	private int shared; //被分享
 	private int collected; //被收藏
+	private String spellName; //知乎URL上的名字
 	
+	public UserInfo() {
+		
+	}
+	
+	public UserInfo(String name, String sex, String location, String business, String employment, String position,
+			String education, String educationExtra, int suppose, int thanks, int question, int answer, int article,
+			int followers, int following, int shared, int collected, String spellName) {
+		super();
+		this.name = name;
+		this.sex = sex;
+		this.location = location;
+		this.business = business;
+		this.employment = employment;
+		this.position = position;
+		this.education = education;
+		this.educationExtra = educationExtra;
+		this.suppose = suppose;
+		this.thanks = thanks;
+		this.question = question;
+		this.answer = answer;
+		this.article = article;
+		this.followers = followers;
+		this.following = following;
+		this.shared = shared;
+		this.collected = collected;
+		this.spellName = spellName;
+	}
 	public String getName() {
 		return name;
 	}
@@ -62,11 +90,11 @@ public class UserInfo {
 	public void setEducation(String education) {
 		this.education = education;
 	}
-	public String getEducation_extra() {
-		return education_extra;
+	public String getEducationExtra() {
+		return educationExtra;
 	}
-	public void setEducation_extra(String education_extra) {
-		this.education_extra = education_extra;
+	public void setEducationExtra(String educationExtra) {
+		this.educationExtra = educationExtra;
 	}
 	public int getSuppose() {
 		return suppose;
@@ -122,6 +150,12 @@ public class UserInfo {
 	}
 	public void setCollected(int collected) {
 		this.collected = collected;
+	}
+	public String getSpellName() {
+		return spellName;
+	}
+	public void setSpellName(String spellName) {
+		this.spellName = spellName;
 	}
 	@Override
 	public String toString() {

@@ -11,15 +11,18 @@ public class UserUrl implements Serializable {
 
 	private String userID;
 	private String userName;
+	private String searched;
+	
 
 	public UserUrl() {
 
 	}
-
-	public UserUrl(String userID, String userName) {
+	
+	public UserUrl(String userID, String userName, String searched) {
 		super();
 		this.userID = userID;
 		this.userName = userName;
+		this.searched = searched;
 	}
 
 	public String getUserID() {
@@ -38,4 +41,13 @@ public class UserUrl implements Serializable {
 		this.userName = userName;
 	}
 
+	public String getSearched() {
+		return searched;
+	}
+
+	public void setSearched(String searched) {
+		this.searched = searched;
+	}
+
+	
 }
